@@ -12,3 +12,4 @@ Automated and verified release changelog.
 - [2025-10-25 09:25] test(recourse): assert validity and sparsity constraints on recourse suggestions
 - [2025-10-25 13:44] docs(methodology): document actionability constraints in counterfactual optimization
 - [2025-10-25 18:03] refactor(core): decouple dataset preprocessing from optimization objective
+- [2025-10-28 09:37] feat(risk): build algorithmic counterfactual recourse generator for credit risk
