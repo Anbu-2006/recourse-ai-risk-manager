@@ -16,3 +16,4 @@ Automated and verified release changelog.
 - [2025-10-28 13:59] feat(fairness): add disparate impact and demographic parity audit metrics
 - [2025-10-28 18:21] feat(explainability): integrate SHAP tree explainer feature importance visualizer
 - [2025-10-31 09:15] perf(cache): memoize high-dimensional distance computations with KD-tree
+- [2025-10-31 15:59] fix(numerical): prevent zero-division in feature normalization pipeline
