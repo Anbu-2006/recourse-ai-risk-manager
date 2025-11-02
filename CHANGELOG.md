@@ -17,3 +17,4 @@ Automated and verified release changelog.
 - [2025-10-28 18:21] feat(explainability): integrate SHAP tree explainer feature importance visualizer
 - [2025-10-31 09:15] perf(cache): memoize high-dimensional distance computations with KD-tree
 - [2025-10-31 15:59] fix(numerical): prevent zero-division in feature normalization pipeline
+- [2025-11-02 09:24] feat(api): expose REST endpoints for model inference and recourse suggestions
