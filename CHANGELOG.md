@@ -20,3 +20,4 @@ Automated and verified release changelog.
 - [2025-11-02 09:24] feat(api): expose REST endpoints for model inference and recourse suggestions
 - [2025-11-02 13:51] feat(dashboard): build interactive feature perturbation sandbox UI
 - [2025-11-02 18:18] test(recourse): assert validity and sparsity constraints on recourse suggestions
+- [2025-11-04 09:37] docs(methodology): document actionability constraints in counterfactual optimization
