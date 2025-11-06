@@ -23,3 +23,4 @@ Automated and verified release changelog.
 - [2025-11-04 09:37] docs(methodology): document actionability constraints in counterfactual optimization
 - [2025-11-04 16:08] refactor(core): decouple dataset preprocessing from optimization objective
 - [2025-11-06 09:44] feat(risk): build algorithmic counterfactual recourse generator for credit risk
+- [2025-11-06 16:00] feat(fairness): add disparate impact and demographic parity audit metrics
