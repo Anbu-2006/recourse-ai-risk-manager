@@ -29,3 +29,4 @@ Automated and verified release changelog.
 - [2025-11-09 18:23] fix(numerical): prevent zero-division in feature normalization pipeline
 - [2025-11-11 09:21] feat(api): expose REST endpoints for model inference and recourse suggestions
 - [2025-11-11 13:39] feat(dashboard): build interactive feature perturbation sandbox UI
+- [2025-11-11 17:58] test(recourse): assert validity and sparsity constraints on recourse suggestions
