@@ -34,3 +34,4 @@ Automated and verified release changelog.
 - [2025-11-13 13:56] refactor(core): decouple dataset preprocessing from optimization objective
 - [2025-11-13 18:16] feat(risk): build algorithmic counterfactual recourse generator for credit risk
 - [2025-11-15 09:33] feat(fairness): add disparate impact and demographic parity audit metrics
+- [2025-11-15 13:51] feat(explainability): integrate SHAP tree explainer feature importance visualizer
