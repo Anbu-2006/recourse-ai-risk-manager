@@ -45,3 +45,4 @@ Automated and verified release changelog.
 - [2025-11-25 09:18] feat(risk): build algorithmic counterfactual recourse generator for credit risk
 - [2025-11-25 13:43] feat(fairness): add disparate impact and demographic parity audit metrics
 - [2025-11-25 18:09] feat(explainability): integrate SHAP tree explainer feature importance visualizer
+- [2025-11-28 09:32] perf(cache): memoize high-dimensional distance computations with KD-tree
