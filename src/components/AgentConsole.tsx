@@ -144,7 +144,7 @@ export const AgentConsole: React.FC<AgentConsoleProps> = ({
         });
       }
 
-      if (data.gate_result?.pass && onTransactionExecuted) {
+      if (onTransactionExecuted) {
         onTransactionExecuted();
       }
     } catch (err: any) {

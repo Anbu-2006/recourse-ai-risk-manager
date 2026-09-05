@@ -31,9 +31,10 @@ interface MerkleExplorerProps {
   onFlagOrder?: (tx: any) => void;
   onRefresh?: () => void;
   agentConsoleSlot?: React.ReactNode;
+  refreshTrigger?: number;
 }
 
-export const MerkleExplorer: React.FC<MerkleExplorerProps> = ({ onFlagOrder, onRefresh, agentConsoleSlot }) => {
+export const MerkleExplorer: React.FC<MerkleExplorerProps> = ({ onFlagOrder, onRefresh, agentConsoleSlot, refreshTrigger }) => {
   const [nodes, setNodes] = useState<MerkleNode[]>([]);
   const [chainIntegrity, setChainIntegrity] = useState<any | null>(null);
   const [selectedNodeIndex, setSelectedNodeIndex] = useState<number | null>(null);
@@ -51,7 +52,7 @@ export const MerkleExplorer: React.FC<MerkleExplorerProps> = ({ onFlagOrder, onR
       if (res.ok) {
         setNodes(data.merkle_chain || []);
         setChainIntegrity(data.chain_integrity || null);
-        if (data.merkle_chain && data.merkle_chain.length > 0 && selectedNodeIndex === null) {
+        if (data.merkle_chain && data.merkle_chain.length > 0) {
           setSelectedNodeIndex(data.merkle_chain[0].node_index);
         }
       }
@@ -65,7 +66,7 @@ export const MerkleExplorer: React.FC<MerkleExplorerProps> = ({ onFlagOrder, onR
 
   useEffect(() => {
     fetchLedger();
-  }, []);
+  }, [refreshTrigger]);
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);

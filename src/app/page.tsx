@@ -86,6 +86,7 @@ export default function Home() {
 
   const [auditEntries, setAuditEntries] = useState<AuditLogEntry[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [auditRefreshTrigger, setAuditRefreshTrigger] = useState(0);
 
   // Dispute Slide-Over State
   const [disputeTx, setDisputeTx] = useState<Transaction | null>(null);
@@ -347,11 +348,16 @@ export default function Home() {
             {/* Unified 3-Column Telemetry & Cryptographic Audit Hub */}
             <div className="w-full bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
               <MerkleExplorer
+                refreshTrigger={auditRefreshTrigger}
                 onFlagOrder={handleFlagOrder}
-                onRefresh={fetchAuditLog}
+                onRefresh={() => {
+                  setAuditRefreshTrigger((prev) => prev + 1);
+                  fetchAuditLog();
+                }}
                 agentConsoleSlot={
                   <AgentConsole
                     onTransactionExecuted={() => {
+                      setAuditRefreshTrigger((prev) => prev + 1);
                       fetchAuditLog();
                       fetchMandate();
                     }}
