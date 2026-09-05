@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 
-const DB_PATH = path.resolve(process.cwd(), 'recourse.db');
+const DB_DIR = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME ? '/tmp' : process.cwd();
+const DB_PATH = path.resolve(DB_DIR, 'recourse.db');
 
 // Global singleton pattern for Next.js hot-reloading
 const globalForDb = globalThis as unknown as {
