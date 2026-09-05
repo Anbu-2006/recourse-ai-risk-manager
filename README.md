@@ -1,7 +1,7 @@
 # Recourse — Autonomous Pre-Transaction Risk Governance & Cryptographic Dispute Defense
 
 <p align="center">
-  <img src="public/recourse-logo.svg" alt="Recourse Logo" width="84" height="84" onerror="this.style.display='none'"/>
+  <img src="https://raw.githubusercontent.com/Anbu-2006/recourse-ai-risk-manager/main/public/recourse_logo.png" alt="Recourse Logo" width="120" height="120" />
 </p>
 
 <h3 align="center">
