@@ -1,0 +1,13 @@
+{
+  "name": "exastore",
+  "version": "1.0.0",
+  "description": "ExaStore — Modern E-Commerce Marketplace Protected by Recourse Governance & Razorpay Rails",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["ecommerce", "exastore", "recourse", "razorpay"],
+  "author": "Recourse Enterprise",
+  "license": "MIT"
+}

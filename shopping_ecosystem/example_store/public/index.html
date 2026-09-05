@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExaStore — Organic &amp; Artisan Marketplace</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    <span class="announcement-badge">Fresh Drop</span>
+    <span>🌿 Farm-fresh organic harvests &amp; artisan staples delivered in 30 minutes! Use code <span class="announcement-highlight">FRESH30</span> for free delivery above ₹499.</span>
+  </div>
+
+  <!-- Global Sticky Navigation Header -->
+  <header class="store-header">
+    <div class="header-container">
+      <!-- Custom Crafted Logo -->
+      <a href="/" class="brand-group" id="brand-link">
+        <div class="brand-logo-svg">
+          <!-- Geometric Emerald Leaf & Shopping Facet Monogram -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L4 7V17L12 22L20 17V7L12 2Z" stroke="#10B981" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 2V22" stroke="#10B981" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <path d="M12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7Z" fill="#10B981" fill-opacity="0.2" stroke="#34D399" stroke-width="1.5"/>
+            <path d="M12 9C10.3431 9 9 10.3431 9 12C9 14.5 12 16 12 16C12 16 15 14.5 15 12C15 10.3431 13.6569 9 12 9Z" fill="#34D399"/>
+          </svg>
+        </div>
+        <div class="brand-text-col">
+          <span class="brand-title">ExaStore</span>
+          <span class="brand-subtitle">Organic &amp; Artisan Marketplace</span>
+        </div>
+      </a>
+
+      <!-- Instant Live Search Bar -->
+      <div class="search-container">
+        <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="search-input" class="search-input-box" placeholder="Search 24 organic essentials, produce, tech...">
+        <span class="search-shortcut-badge">Ctrl K</span>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- AI Copilot Header Button -->
+        <button class="ai-header-trigger" id="btn-header-ai" title="Open Shopping AI Copilot by Anbu">
+          <div class="pulse-indicator"></div>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          <span>Shopping AI</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="cart-btn" id="btn-cart-toggle" aria-label="Open Shopping Cart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+          </svg>
+          <span>Cart</span>
+          <span class="cart-badge-pill" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-wrapper">
+    <div class="hero-banner-card">
+      <div class="hero-tag-row">
+        <span class="hero-tag-pill">🌱 100% Certified Organic</span>
+        <span class="hero-tag-pill">⚡ 30-Min Fast Track Delivery</span>
+        <span class="hero-tag-pill">🛡️ Razorpay Protected Rails</span>
+      </div>
+      <h1 class="hero-heading">Curated Organics &amp; Farm Fresh Essentials</h1>
+      <p class="hero-description">
+        Experience conscious living with cold-pressed oils, raw forest honey, stone-ground flours, fresh harvests, and certified tech gear. Governed on secure payment rails.
+      </p>
+      <div class="hero-features-row">
+        <div class="hero-feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Direct Farm-to-Table</span>
+        </div>
+        <div class="hero-feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Instant UPI &amp; Razorpay Test Settle</span>
+        </div>
+        <div class="hero-feature-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Built-in Shopping AI by Anbu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls & Category Navigation Bar -->
+  <section class="controls-container">
+    <div class="category-nav" id="category-nav">
+      <button class="cat-chip active" data-category="all">All Products (24)</button>
+      <button class="cat-chip" data-category="groceries">Groceries &amp; Dairy</button>
+      <button class="cat-chip" data-category="produce">Fresh Produce</button>
+      <button class="cat-chip" data-category="bakery">Artisan Bakery</button>
+      <button class="cat-chip" data-category="beverages">Healthy Beverages</button>
+      <button class="cat-chip" data-category="electronics">Tech &amp; Workstations</button>
+    </div>
+
+    <div class="sort-select-wrapper">
+      <select id="sort-select">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="rating">Highest Rated</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Main Product Catalog -->
+  <main class="catalog-main">
+    <div class="products-grid" id="products-grid">
+      <!-- Injected dynamically via app.js -->
+    </div>
+  </main>
+
+  <!-- Slide-Out Cart Drawer -->
+  <div class="drawer-backdrop" id="cart-drawer-overlay"></div>
+  <aside class="cart-sidebar" id="cart-drawer">
+    <div class="cart-header">
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+        </svg>
+        <span>Your Shopping Cart</span>
+      </h2>
+      <button class="btn-icon-close" id="btn-close-drawer" aria-label="Close Cart">&times;</button>
+    </div>
+
+    <div class="free-shipping-meter" id="shipping-meter">
+      <span id="meter-text">Add ₹150 more for FREE express delivery!</span>
+      <div class="meter-bar">
+        <div class="meter-fill" id="meter-fill" style="width: 65%;"></div>
+      </div>
+    </div>
+
+    <div class="cart-items-scroll" id="cart-items-container">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <div class="cart-footer">
+      <!-- Delivery Address Selection -->
+      <div class="address-box">
+        <label for="delivery-address-input">Delivery Address:</label>
+        <div class="address-chips-row">
+          <button type="button" class="addr-chip" data-address="Flat 402, Green Glen Layout, Bellandur, Bengaluru 560103">
+            🏢 Bengaluru Metro
+          </button>
+          <button type="button" class="addr-chip" data-address="Near banyan tree behind old tea stall, Chittoor 517001">
+            🌳 Semi-Urban Landmark
+          </button>
+        </div>
+        <textarea id="delivery-address-input" class="address-textarea" rows="2">Flat 402, Green Glen Layout, Bellandur, Bengaluru 560103</textarea>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="cart-breakdown-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-val">₹0.00</span>
+      </div>
+      <div class="cart-breakdown-row">
+        <span>Estimated GST (5%)</span>
+        <span id="cart-tax-val">₹0.00</span>
+      </div>
+      <div class="cart-breakdown-row">
+        <span>Express Delivery</span>
+        <span id="cart-shipping-val" style="color: #059669; font-weight: 700;">FREE</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total Payable:</span>
+        <span id="cart-total-val">₹0.00</span>
+      </div>
+
+      <button class="btn-checkout-rzp" id="btn-checkout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <span id="checkout-btn-text">Pay &amp; Place Order via Razorpay</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Clean Customer Order Receipt / Checkout Modal -->
+  <div class="modal-backdrop" id="checkout-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span id="modal-heading">Order Receipt</span>
+        </div>
+        <button class="btn-icon-close" id="btn-close-modal">&times;</button>
+      </div>
+
+      <div class="modal-body" id="modal-body">
+        <!-- Injected via app.js -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="cat-chip active" id="btn-modal-done" style="padding: 10px 20px;">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       FLOATING ACTION BUTTON (FAB) FOR SHOPPING AI
+       ===================================================================== -->
+  <button class="ai-copilot-fab" id="ai-copilot-fab" title="Chat with Shopping AI by Anbu">
+    <div class="fab-sparkle-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+    </div>
+    <div class="fab-title-group">
+      <span class="fab-main-text">Shopping AI</span>
+      <span class="fab-sub-text">By Anbu · ExaStore Copilot</span>
+    </div>
+    <div class="pulse-indicator"></div>
+  </button>
+
+  <!-- =====================================================================
+       MOVABLE & ADJUSTABLE FLOATING AI COPILOT WINDOW
+       ===================================================================== -->
+  <div class="ai-copilot-window" id="ai-copilot-window" role="dialog" aria-label="Shopping AI Assistant">
+    <!-- Header: Click and drag here to move the window -->
+    <div class="ai-copilot-header" id="ai-window-header">
+      <div class="ai-header-drag-handle">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2">
+          <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+          <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+          <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+        </svg>
+        <div class="ai-title-wrap">
+          <div class="ai-title-text">
+            <span>✨ Shopping AI</span>
+            <span style="font-size: 11px; font-weight: 500; color: #94A3B8;">(Draggable &amp; Resizable)</span>
+          </div>
+          <span class="ai-author-tag">CREATED BY ANBU · EXASTORE COPILOT</span>
+        </div>
+      </div>
+      <div class="ai-header-btns">
+        <button class="ai-tool-btn" id="btn-ai-clear" title="Clear chat conversation">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+        <button class="ai-tool-btn" id="btn-ai-minimize" title="Minimize / Expand">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="ai-tool-btn" id="btn-ai-close" title="Close window">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Context Status Bar -->
+    <div class="ai-context-bar">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <div class="pulse-indicator"></div>
+        <span>Groq 70B Engine &middot; Connected to 24 ExaStore Items</span>
+      </div>
+    </div>
+
+    <!-- Quick Prompt Pills -->
+    <div class="ai-quick-pills-row">
+      <button type="button" class="ai-pill-chip" data-prompt="Buy Organic Almond Milk on ExaStore">🥛 Buy Almond Milk</button>
+      <button type="button" class="ai-pill-chip" data-prompt="Order Farm Fresh Organic Avocado and Honey">🥑 Order Avocados &amp; Honey</button>
+      <button type="button" class="ai-pill-chip" data-prompt="Set schedule to buy groceries on weekends with ₹500 cap">📅 Schedule Weekends (&lt;₹500)</button>
+      <button type="button" class="ai-pill-chip" data-prompt="What fresh produce and healthy breakfast snacks do you have?">🥗 Breakfast Options</button>
+      <button type="button" class="ai-pill-chip" data-prompt="Buy Predator ROG RTX 4080 Gaming Laptop on ExaStore">💻 Buy Laptop (Cap Test)</button>
+    </div>
+
+    <!-- Chat Messages Stream -->
+    <div class="ai-messages-container" id="ai-messages-container">
+      <div class="chat-bubble assistant">
+        👋 Hi! I am <strong>Shopping AI</strong>, created by <strong>Anbu</strong>.
+        <br><br>
+        I am directly connected to <strong>ExaStore</strong>. You can ask me:
+        <ul style="margin: 6px 0 6px 18px; font-size: 12px;">
+          <li><em>"Buy Organic Almond Milk"</em> or <em>"Order Avocados"</em></li>
+          <li><em>"Schedule weekend groceries under ₹500"</em></li>
+          <li><em>"What high-protein snacks do you have?"</em></li>
+        </ul>
+        You can also drag this window anywhere on your screen or resize it from the corner!
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form class="ai-input-form" id="ai-chat-form">
+      <input type="text" id="ai-user-input" class="ai-chat-input" placeholder="Ask AI to buy, schedule, or find items..." autocomplete="off">
+      <button type="submit" class="ai-send-btn" id="btn-ai-send" title="Send">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- Store Footer -->
+  <footer class="store-footer">
+    <div class="footer-container">
+      <div>
+        <strong>ExaStore Marketplace</strong> &middot; Organic Food &amp; Tech &middot; Created with <strong>Shopping AI by Anbu</strong>
+      </div>
+      <div>
+        Running on Port 3001 &middot; Autonomous Risk Governance via Recourse (Port 3000)
+      </div>
+    </div>
+  </footer>
+
+  <!-- Official Razorpay Sandbox Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
