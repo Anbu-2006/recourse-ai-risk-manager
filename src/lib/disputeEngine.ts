@@ -22,7 +22,11 @@ export interface RepresentmentDossier {
 /**
  * Compiles a Visa CE 3.0 + Carrier OTP Evidence Dossier and contests the dispute on Razorpay rails
  */
-export async function autoContestDispute(disputeId: string, awbNumber: string = '987654321'): Promise<RepresentmentDossier> {
+export async function autoContestDispute(
+  disputeId: string,
+  awbNumber: string = '987654321',
+  options?: { rzpKey?: string; rzpSecret?: string; groqKey?: string }
+): Promise<RepresentmentDossier> {
   const db = getDb();
 
   // 1. Fetch or create dispute record
@@ -70,6 +74,7 @@ export async function autoContestDispute(disputeId: string, awbNumber: string = 
     carrier: carrierRecord,
     historicalTxs,
     clickwrapTimestamp,
+    customGroqKey: options?.groqKey,
   });
 
   // 5. Calculate Win Probability: 0.92 if OTP + CE 3.0 match
@@ -92,8 +97,8 @@ export async function autoContestDispute(disputeId: string, awbNumber: string = 
 
   // 6. Call Razorpay Contest API (PATCH /v1/disputes/:id/contest)
   let razorpayResponse: any = null;
-  const rzpKey = process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder_key';
-  const rzpSecret = process.env.RAZORPAY_KEY_SECRET || 'placeholder_secret';
+  const rzpKey = options?.rzpKey || process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder_key';
+  const rzpSecret = options?.rzpSecret || process.env.RAZORPAY_KEY_SECRET || 'placeholder_secret';
 
   const isLiveRzp = !rzpKey.includes('placeholder') && !rzpSecret.includes('placeholder');
 
@@ -185,9 +190,10 @@ async function generateLegalRebuttal(params: {
   carrier: CarrierTrackingRecord;
   historicalTxs: HistoricalTxRow[];
   clickwrapTimestamp: string;
+  customGroqKey?: string;
 }): Promise<string> {
   const intentId = params.intentReceiptId || "intent_rcpt_9942a_verified";
-  const groqKey = process.env.GROQ_API_KEY;
+  const groqKey = params.customGroqKey || process.env.GROQ_API_KEY;
   const isKeyValid = groqKey && !groqKey.includes('placeholder');
 
   if (isKeyValid) {

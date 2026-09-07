@@ -4,17 +4,26 @@ import { Groq } from "groq-sdk";
 import { createGroqChatCompletion } from "@/lib/groqClient";
 import { getDb, MandateRow } from "@/lib/db";
 import { evaluatePass1, evaluateADS, evaluateHardGate } from "@/lib/riskEngine";
-import { appendAuditNode, createIntentReceipt } from "@/lib/crypto";
+import { appendAuditNode, createIntentReceipt, generateProofOfGateExecution } from "@/lib/crypto";
 import { recourseStore } from "@/lib/store";
 import { GateCheck, Transaction } from "@/lib/types";
 
-// Initialize Razorpay SDK
-const rzpKey = process.env.RAZORPAY_KEY_ID || "rzp_test_placeholder_key";
-const rzpSecret = process.env.RAZORPAY_KEY_SECRET || "placeholder_secret";
-const razorpay = new Razorpay({ key_id: rzpKey, key_secret: rzpSecret });
+// Default Razorpay SDK fallback
+const defaultRzpKey = process.env.RAZORPAY_KEY_ID || "rzp_test_placeholder_key";
+const defaultRzpSecret = process.env.RAZORPAY_KEY_SECRET || "placeholder_secret";
+const defaultRazorpay = new Razorpay({ key_id: defaultRzpKey, key_secret: defaultRzpSecret });
 
 export async function POST(req: NextRequest) {
   try {
+    const customGroqKey = req.headers.get("x-groq-api-key") || undefined;
+    const customRzpKey = req.headers.get("x-razorpay-key-id") || process.env.RAZORPAY_KEY_ID || defaultRzpKey;
+    const customRzpSecret = req.headers.get("x-razorpay-key-secret") || process.env.RAZORPAY_KEY_SECRET || defaultRzpSecret;
+    const customHmac = req.headers.get("x-recourse-hmac-secret") || undefined;
+
+    const activeRazorpay = (customRzpKey !== defaultRzpKey || customRzpSecret !== defaultRzpSecret)
+      ? new Razorpay({ key_id: customRzpKey, key_secret: customRzpSecret })
+      : defaultRazorpay;
+
     const body = await req.json();
     const userMessage = body.user_message || body.message || "";
     const rawAddressInput = body.address || body.raw_address || "Flat 402, Green Glen Layout, Bellandur, Bengaluru 560103";
@@ -74,7 +83,7 @@ export async function POST(req: NextRequest) {
     // ==========================================
     // Parameter Extraction (Groq or Regex Parser)
     // ==========================================
-    const parsed = await extractOrderParameters(userMessage);
+    const parsed = await extractOrderParameters(userMessage, customGroqKey);
 
     // ==========================================
     // PASS 2: Address Deliverability Scorer (ADS)
@@ -145,9 +154,9 @@ export async function POST(req: NextRequest) {
     if (hardGate.pass) {
       // 1. Create Authentic Razorpay Order (or fallback simulator)
       try {
-        if (!rzpKey.includes("placeholder")) {
+        if (!customRzpKey.includes("placeholder")) {
           const formattedReceipt = `rcpt_recourse_${Date.now().toString().slice(-6)}`;
-          razorpayOrder = await razorpay.orders.create({
+          razorpayOrder = await activeRazorpay.orders.create({
             amount: parsed.amountPaisa,
             currency: "INR",
             receipt: formattedReceipt,
@@ -201,7 +210,7 @@ export async function POST(req: NextRequest) {
       );
 
       // 4. Append to Merkle audit chain with Ed25519 signature
-      const auditNode = appendAuditNode({
+      const auditPayload = {
         eventType: "TRANSACTION_EXECUTED",
         orderId,
         amountPaisa: parsed.amountPaisa,
@@ -213,8 +222,12 @@ export async function POST(req: NextRequest) {
         depositPaisa: ads.depositPaisa,
         razorpayOrderId: razorpayOrder.id,
         intentReceiptId: intentReceipt.intentId,
-      });
-      pgeToken = auditNode.pgeToken;
+      };
+
+      const auditNode = appendAuditNode(auditPayload);
+      pgeToken = customHmac
+        ? generateProofOfGateExecution(auditPayload, auditNode.nodeHash, customHmac)
+        : auditNode.pgeToken;
 
       // 5. Save order in SQLite
       db.prepare(`
@@ -359,19 +372,20 @@ export async function POST(req: NextRequest) {
 /**
  * Parses user prompt to order parameters using Groq with deterministic regex fallback
  */
-async function extractOrderParameters(prompt: string): Promise<{
+async function extractOrderParameters(prompt: string, customGroqKey?: string): Promise<{
   merchant: string;
   item: string;
   amountPaisa: number;
   category: string;
   address?: string;
 }> {
-  const groqKey = process.env.GROQ_API_KEY;
+  const groqKey = customGroqKey || process.env.GROQ_API_KEY;
   const isKeyValid = groqKey && !groqKey.includes("placeholder");
 
   if (isKeyValid) {
     try {
       const raw = await createGroqChatCompletion({
+        apiKey: groqKey,
         messages: [
           {
             role: "system",

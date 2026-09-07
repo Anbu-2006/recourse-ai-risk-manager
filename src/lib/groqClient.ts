@@ -1,7 +1,7 @@
 import { Groq } from "groq-sdk";
 
-export function getGroqClient(): Groq | null {
-  const apiKey = process.env.GROQ_API_KEY;
+export function getGroqClient(overrideKey?: string): Groq | null {
+  const apiKey = overrideKey || process.env.GROQ_API_KEY;
   if (!apiKey || apiKey.includes("placeholder")) {
     return null;
   }
@@ -12,8 +12,9 @@ export async function createGroqChatCompletion(options: {
   messages: Array<{ role: "system" | "user" | "assistant"; content: string }>;
   response_format?: { type: "json_object" | "text" };
   temperature?: number;
+  apiKey?: string;
 }): Promise<string | null> {
-  const groq = getGroqClient();
+  const groq = getGroqClient(options.apiKey);
   if (!groq) return null;
 
   const candidateModels = [

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Transaction } from "@/lib/types";
 import { X, ShieldCheck, Truck, Scale, Sparkles, FileText, Check, Send, AlertTriangle } from "lucide-react";
+import { authFetch } from "@/lib/apiKeys";
 
 interface DisputeSlideOverProps {
   isOpen: boolean;
@@ -25,10 +26,11 @@ export const DisputeSlideOver: React.FC<DisputeSlideOverProps> = ({
   const handleAutoContest = async () => {
     try {
       setIsSubmitting(true);
-      const res = await fetch("/api/dispute", {
+      const res = await authFetch("/api/dispute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          action: "contest",
           dispute_id: "disp_razorpay_98765",
           awb_number: "987654321",
         }),

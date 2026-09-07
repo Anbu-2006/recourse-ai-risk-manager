@@ -81,11 +81,12 @@ export function computeNodeHash(
  * Proof of Gate Execution (PGE) Token:
  * Base64(payload).Base64(HMAC-SHA256(payload || nodeHash))
  */
-export function generateProofOfGateExecution(payload: Record<string, any>, nodeHash: string): string {
+export function generateProofOfGateExecution(payload: Record<string, any>, nodeHash: string, customHmacSecret?: string): string {
   const payloadStr = JSON.stringify(payload);
   const payloadB64 = Buffer.from(payloadStr, 'utf-8').toString('base64url');
+  const secretToUse = customHmacSecret || HMAC_SECRET;
   
-  const hmac = crypto.createHmac('sha256', HMAC_SECRET)
+  const hmac = crypto.createHmac('sha256', secretToUse)
     .update(`${payloadStr}:${nodeHash}`)
     .digest('base64url');
     

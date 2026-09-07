@@ -6,20 +6,36 @@ import {
   Sliders,
   Activity,
   Scale,
+  Key,
 } from "lucide-react";
+import { getStoredApiKeys } from "@/lib/apiKeys";
 
 export type NavTabType = "overview" | "rules" | "inspector" | "disputes";
 
 interface HeaderProps {
   activeTab: NavTabType;
   setActiveTab: (tab: NavTabType) => void;
+  onOpenApiKeysModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
+  onOpenApiKeysModal,
 }) => {
   const [timeStr, setTimeStr] = useState<string>("14:32:08 UTC");
+  const [isCustomConfig, setIsCustomConfig] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkKeys = () => {
+      const keys = getStoredApiKeys();
+      setIsCustomConfig(Boolean(keys.isCustom));
+    };
+    checkKeys();
+
+    window.addEventListener("recourse-keys-updated", checkKeys);
+    return () => window.removeEventListener("recourse-keys-updated", checkKeys);
+  }, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -79,8 +95,22 @@ export const Header: React.FC<HeaderProps> = ({
           })}
         </nav>
 
-        {/* Right: Live Environment Status & UTC Clock */}
-        <div className="flex items-center gap-2.5 flex-shrink-0">
+        {/* Right: Live Environment Status, API Setup Button & UTC Clock */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            onClick={onOpenApiKeysModal}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-mono font-medium transition-all cursor-pointer shadow-2xs ${
+              isCustomConfig
+                ? "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900"
+            }`}
+            title="Configure Groq, Razorpay & HMAC API Keys"
+          >
+            <Key className="w-3 h-3 text-slate-600" />
+            <span className={`w-1.5 h-1.5 rounded-full ${isCustomConfig ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`} />
+            <span>{isCustomConfig ? "Custom Keys Active" : "API Credentials"}</span>
+          </button>
+
           <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700 text-[11px] font-mono font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Razorpay Test Rails Active</span>

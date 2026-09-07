@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ProposedTransaction, GateOutcome, RuleResults } from "@/lib/types";
 import { Send, Check, X, ShieldAlert, Sparkles, Terminal, Shield, MapPin, KeyRound, Copy, ArrowRight, ExternalLink, Zap } from "lucide-react";
+import { authFetch } from "@/lib/apiKeys";
 
 export interface ChatMessage {
   id: string;
@@ -92,7 +93,7 @@ export const AgentConsole: React.FC<AgentConsoleProps> = ({
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/agent", {
+      const res = await authFetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

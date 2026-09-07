@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { recourseStore } from "@/lib/store";
-import { evaluateHardGate } from "@/lib/gate";
+import { evaluateHardGate } from "@/lib/riskEngine";
 import { ProposedTransaction } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -15,15 +14,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const mandate = recourseStore.getMandate();
-    const gateResult = evaluateHardGate(proposed, mandate);
+    const gateResult = evaluateHardGate({
+      mandateId: body.mandate_id || "mandate_groceries_001",
+      amountPaisa: Math.round(proposed.amount * 100),
+      merchant: proposed.merchant,
+      category: proposed.category,
+    });
+    const mandate = gateResult.mandateSnapshot;
 
     return NextResponse.json({
       pass: gateResult.pass,
-      outcome: gateResult.outcome,
-      reason: gateResult.reason,
-      checks: gateResult.checks,
-      mandate_id: mandate.id,
+      outcome: gateResult.pass ? "pass" : "fail",
+      reason: gateResult.reason || "All governance boundaries cleared",
+      checks: {
+        category: gateResult.checks.category,
+        cap: gateResult.checks.cap,
+        merchant: gateResult.checks.merchant,
+        time: gateResult.checks.status,
+      },
+      mandate_id: mandate?.mandate_id,
     });
   } catch (error: any) {
     return NextResponse.json(

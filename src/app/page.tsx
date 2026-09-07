@@ -12,6 +12,8 @@ import { DisputeSlideOver } from "@/components/DisputeSlideOver";
 import { DisputeWorkbench } from "@/components/DisputeWorkbench";
 import { MerkleExplorer } from "@/components/MerkleExplorer";
 import { OverviewArchitecture } from "@/components/OverviewArchitecture";
+import { ApiKeysModal } from "@/components/ApiKeysModal";
+import { authFetch, isOnboardingDismissed } from "@/lib/apiKeys";
 import { Mandate, Transaction, AuditLogEntry } from "@/lib/types";
 import {
   ShieldCheck,
@@ -33,6 +35,7 @@ import {
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<NavTabType>("overview");
+  const [isApiKeysModalOpen, setIsApiKeysModalOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,6 +43,11 @@ export default function Home() {
       const tab = params.get("tab");
       if (tab === "overview" || tab === "rules" || tab === "inspector" || tab === "disputes") {
         setActiveTab(tab as NavTabType);
+      }
+
+      // Auto-trigger API credentials onboarding pop-up on start if not configured/dismissed
+      if (!isOnboardingDismissed()) {
+        setIsApiKeysModalOpen(true);
       }
     }
   }, []);
@@ -96,7 +104,7 @@ export default function Home() {
   const fetchMandate = useCallback(async (selectedId?: string) => {
     try {
       const url = selectedId ? `/api/mandate?mandate_id=${encodeURIComponent(selectedId)}` : "/api/mandate";
-      const res = await fetch(url);
+      const res = await authFetch(url);
       if (res.ok) {
         const data = await res.json();
         if (data.mandate) setMandate(data.mandate);
@@ -115,7 +123,7 @@ export default function Home() {
   // Fetch Audit Log & Transactions
   const fetchAuditLog = useCallback(async () => {
     try {
-      const res = await fetch("/api/audit");
+      const res = await authFetch("/api/audit");
       if (res.ok) {
         const data = await res.json();
         if (data.entries) setAuditEntries(data.entries);
@@ -137,7 +145,7 @@ export default function Home() {
 
   const handleUpdateMandate = async (updates: Partial<Mandate> & { action?: string; mandate_id?: string; reload_amount?: number; reset_balance?: boolean }) => {
     try {
-      const res = await fetch("/api/mandate", {
+      const res = await authFetch("/api/mandate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
@@ -181,7 +189,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex flex-col font-sans selection:bg-slate-200 selection:text-slate-900">
       {/* 1. Global Institutional Header with exactly 4 Navigation Tabs */}
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onOpenApiKeysModal={() => setIsApiKeysModalOpen(true)}
+      />
 
       {/* 2. Main Workspace Area */}
       <main id="top" className="w-full flex-1 pb-16">
@@ -461,6 +473,12 @@ export default function Home() {
           fetchAuditLog();
           fetchMandate();
         }}
+      />
+
+      {/* API Credentials Configuration Pop-Up Modal */}
+      <ApiKeysModal
+        isOpen={isApiKeysModalOpen}
+        onClose={() => setIsApiKeysModalOpen(false)}
       />
     </div>
   );

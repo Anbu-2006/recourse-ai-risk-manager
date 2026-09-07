@@ -21,12 +21,11 @@ export async function POST(req: NextRequest) {
     let scheduleDays = ["Everyday"];
     let initialHoldPaisa = 200000; // ₹2,000
 
-    const groqKey = process.env.GROQ_API_KEY;
+    const groqKey = req.headers.get("x-groq-api-key") || process.env.GROQ_API_KEY;
     const isKeyValid = groqKey && !groqKey.includes("placeholder");
 
     if (isKeyValid) {
       try {
-        const groq = new Groq({ apiKey: groqKey });
         const systemPrompt = `You are an institutional policy compiler for NPCI UPI Reserve Pay mandates.
 Extract spending rules from the user prompt into structured JSON:
 {
@@ -39,6 +38,7 @@ Extract spending rules from the user prompt into structured JSON:
 Output ONLY the valid JSON object.`;
 
         const raw = await createGroqChatCompletion({
+          apiKey: groqKey,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: prompt },

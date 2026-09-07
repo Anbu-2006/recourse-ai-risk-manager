@@ -9,11 +9,19 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    // Support Auto-Contest trigger from Slide-over
-    if (body.action === "contest" || body.contest) {
+    // Support Auto-Contest trigger from Slide-over or Workbench
+    if (body.action === "contest" || body.contest || (body.dispute_id && !body.transaction_id)) {
       const disputeId = body.dispute_id || "disp_razorpay_98765";
       const awbNumber = body.awb_number || "987654321";
-      const dossier = await autoContestDispute(disputeId, awbNumber);
+      const customGroqKey = req.headers.get("x-groq-api-key") || undefined;
+      const customRzpKey = req.headers.get("x-razorpay-key-id") || undefined;
+      const customRzpSecret = req.headers.get("x-razorpay-key-secret") || undefined;
+
+      const dossier = await autoContestDispute(disputeId, awbNumber, {
+        rzpKey: customRzpKey,
+        rzpSecret: customRzpSecret,
+        groqKey: customGroqKey,
+      });
       return NextResponse.json({
         success: true,
         action: "contested",

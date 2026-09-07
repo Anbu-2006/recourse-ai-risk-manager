@@ -17,6 +17,16 @@ async function runTests() {
   }
 
   try {
+    // Keep the smoke suite repeatable after previous runs debit the SQLite mandate.
+    await fetch(`${BASE_URL}/api/mandate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mandate_id: "mandate_groceries_001",
+        action: "RESET",
+      }),
+    });
+
     // 1. Test Hard Gate PASS
     console.log("\n--- Testing POST /api/gate-check ---");
     const gatePassRes = await fetch(`${BASE_URL}/api/gate-check`, {

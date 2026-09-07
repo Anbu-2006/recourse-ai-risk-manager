@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Sparkles, ArrowRight, CornerDownLeft, Shield, SlidersHorizontal, CheckCircle2 } from "lucide-react";
+import { authFetch } from "@/lib/apiKeys";
 
 export interface StagedDraft {
   mandate_id: string;
@@ -41,7 +42,7 @@ export const GroqPolicyBuilder: React.FC<GroqPolicyBuilderProps> = ({
     setErrorMessage(null);
 
     try {
-      const res = await fetch("/api/mandate/draft", {
+      const res = await authFetch("/api/mandate/draft", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: textToSubmit.trim() }),

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { AlertCircle, CheckCircle2, ShieldAlert, Sparkles, Check } from "lucide-react";
+import { authFetch } from "@/lib/apiKeys";
 
 interface PendingMandateData {
   id: string;
@@ -32,7 +33,7 @@ export const MandateReviewCard: React.FC<MandateReviewCardProps> = ({
   const handleApprove = async () => {
     try {
       setIsApproving(true);
-      const res = await fetch("/api/mandate/approve", {
+      const res = await authFetch("/api/mandate/approve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mandate_id: pendingMandate.id }),

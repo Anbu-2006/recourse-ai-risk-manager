@@ -15,6 +15,7 @@ import {
   Lock,
 } from "lucide-react";
 import { StagedDraft } from "./GroqPolicyBuilder";
+import { authFetch } from "@/lib/apiKeys";
 
 interface RuleApprovalModalProps {
   draft: StagedDraft | null;
@@ -105,7 +106,7 @@ export const RuleApprovalModal: React.FC<RuleApprovalModalProps> = ({
     setError(null);
 
     try {
-      const res = await fetch("/api/mandate/approve", {
+      const res = await authFetch("/api/mandate/approve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

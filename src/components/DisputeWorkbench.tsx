@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Scale, Truck, ShieldCheck, Sparkles, Send, Check, Download, Clock, CheckCircle2, FileText } from "lucide-react";
+import { authFetch } from "@/lib/apiKeys";
 
 export const DisputeWorkbench: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +23,7 @@ export const DisputeWorkbench: React.FC = () => {
   const handleAutoContest = async () => {
     setIsSubmitting(true);
     try {
-      const res = await fetch("/api/dispute", {
+      const res = await authFetch("/api/dispute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

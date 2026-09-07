@@ -3,6 +3,15 @@ import assert from 'assert';
 console.log('🌐 Testing live HTTP endpoints on http://localhost:3000...\n');
 
 async function testAll() {
+  await fetch('http://localhost:3000/api/mandate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      mandate_id: 'mandate_groceries_001',
+      action: 'RESET',
+    }),
+  });
+
   // 1. Test /api/mandate
   console.log('1️⃣ GET /api/mandate');
   const resMandate = await fetch('http://localhost:3000/api/mandate');
